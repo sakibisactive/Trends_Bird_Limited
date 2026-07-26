@@ -1,0 +1,23 @@
+# dependencies
+/node_modules
+
+# build output
+/dist
+
+# uploads
+/uploads
+!/uploads/.gitkeep
+
+# environment variables
+.env
+.env.production
+.env.staging
+
+# logs
+*.log
+npm-debug.log*
+
+# OS & IDE
+.DS_Store
+.vscode/
+.idea/
