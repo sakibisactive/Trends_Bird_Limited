@@ -3,7 +3,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { CreateAttributeDto, CreateAttributeValueDto } from './dto/create-attribute.dto';
 import { UpdateAttributeDto } from './dto/update-attribute.dto';
 import { generateSlug } from '../../common/utils/slugify';
-import { AttributeType } from '@prisma/client';
+import { AttributeType } from '../../common/constants/enums';
 
 @Injectable()
 export class AttributeService {

@@ -1,4 +1,4 @@
-import { PrismaClient, RoleStatus, BrandStatus, AttributeType, StockStatus } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
@@ -87,11 +87,11 @@ async function main() {
   // 2. Create Super Administrator Role (Holds ALL permissions)
   const superAdminRole = await prisma.role.upsert({
     where: { name: 'Super Administrator' },
-    update: { status: RoleStatus.ACTIVE },
+    update: { status: 'ACTIVE' },
     create: {
       name: 'Super Administrator',
       description: 'Full system access with all administrative and catalog permissions',
-      status: RoleStatus.ACTIVE,
+      status: 'ACTIVE',
     },
   });
 
@@ -117,11 +117,11 @@ async function main() {
 
   const catalogRole = await prisma.role.upsert({
     where: { name: 'Catalog Manager' },
-    update: { status: RoleStatus.ACTIVE },
+    update: { status: 'ACTIVE' },
     create: {
       name: 'Catalog Manager',
       description: 'Limited catalog access only (categories, brands, attributes, products, media). Lacks user/role/permission access.',
-      status: RoleStatus.ACTIVE,
+      status: 'ACTIVE',
     },
   });
 
@@ -139,7 +139,7 @@ async function main() {
   const hashedPassword = await bcrypt.hash('Admin@123456', 10);
   const catalogHashedPassword = await bcrypt.hash('Catalog@123456', 10);
 
-  const superAdminUser = await prisma.user.upsert({
+  await prisma.user.upsert({
     where: { email: 'admin@trendsbird.com' },
     update: {
       password: hashedPassword,
@@ -157,7 +157,7 @@ async function main() {
     },
   });
 
-  const limitedUser = await prisma.user.upsert({
+  await prisma.user.upsert({
     where: { email: 'catalog@trendsbird.com' },
     update: {
       password: catalogHashedPassword,
@@ -192,7 +192,7 @@ async function main() {
     },
   });
 
-  const phones = await prisma.category.upsert({
+  await prisma.category.upsert({
     where: { slug: 'phones' },
     update: {},
     create: {
@@ -224,7 +224,7 @@ async function main() {
       name: 'Apple',
       slug: 'apple',
       description: 'Think Different - Apple Products',
-      status: BrandStatus.ACTIVE,
+      status: 'ACTIVE',
     },
   });
 
@@ -235,7 +235,7 @@ async function main() {
       name: 'Nike',
       slug: 'nike',
       description: 'Just Do It - Athletic footwear and apparel',
-      status: BrandStatus.ACTIVE,
+      status: 'ACTIVE',
     },
   });
 
@@ -246,7 +246,7 @@ async function main() {
     create: {
       name: 'Colour',
       slug: 'color',
-      type: AttributeType.COLOUR_SWATCH,
+      type: 'COLOUR_SWATCH',
       values: {
         create: [
           { value: 'Red', slug: 'red', referenceValue: '#FF0000' },
@@ -264,7 +264,7 @@ async function main() {
     create: {
       name: 'Size',
       slug: 'size',
-      type: AttributeType.RADIO,
+      type: 'RADIO',
       values: {
         create: [
           { value: 'Medium', slug: 'medium' },
@@ -276,7 +276,7 @@ async function main() {
   });
 
   // Seed Simple Product
-  const simpleProduct = await prisma.product.upsert({
+  await prisma.product.upsert({
     where: { sku: 'MOUSE-W-100' },
     update: {},
     create: {
@@ -289,7 +289,7 @@ async function main() {
       price: 49.99,
       salePrice: 39.99,
       stock: 150,
-      stockStatus: StockStatus.IN_STOCK,
+      stockStatus: 'IN_STOCK',
       weight: 0.2,
       isActive: true,
       isFeatured: true,
@@ -330,6 +330,7 @@ async function main() {
               price: 29.99,
               salePrice: 24.99,
               stock: 50,
+              stockStatus: 'IN_STOCK',
               attributeValues: {
                 create: [{ attributeValueId: redVal.id }, { attributeValueId: mVal.id }],
               },
@@ -338,6 +339,7 @@ async function main() {
               sku: 'SHIRT-RED-L',
               price: 29.99,
               stock: 30,
+              stockStatus: 'IN_STOCK',
               attributeValues: {
                 create: [{ attributeValueId: redVal.id }, { attributeValueId: lVal.id }],
               },
@@ -346,6 +348,7 @@ async function main() {
               sku: 'SHIRT-BLUE-M',
               price: 29.99,
               stock: 45,
+              stockStatus: 'IN_STOCK',
               attributeValues: {
                 create: [{ attributeValueId: blueVal.id }, { attributeValueId: mVal.id }],
               },

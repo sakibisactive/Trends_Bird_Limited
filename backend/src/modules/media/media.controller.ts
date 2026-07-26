@@ -15,7 +15,7 @@ import { MediaService } from './media.service';
 import { UpdateMediaDto } from './dto/update-media.dto';
 import { RequirePermissions } from '../../common/decorators/permissions.decorator';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
-import { MediaType } from '@prisma/client';
+import { MediaType } from '../../common/constants/enums';
 
 @Controller('api/v1/media')
 export class MediaController {

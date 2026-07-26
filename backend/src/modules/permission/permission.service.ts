@@ -39,10 +39,13 @@ export class PermissionService {
     });
 
     if (permissionData.length > 0) {
-      await this.prisma.permission.createMany({
-        data: permissionData,
-        skipDuplicates: true,
-      });
+      for (const p of permissionData) {
+        await this.prisma.permission.upsert({
+          where: { name: p.name },
+          update: { groupId: p.groupId },
+          create: p,
+        });
+      }
     }
 
     return this.findGroupById(group.id);

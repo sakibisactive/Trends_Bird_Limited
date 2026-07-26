@@ -1,5 +1,5 @@
 import { IsArray, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { RoleStatus } from '@prisma/client';
+import { RoleStatus } from '../../../common/constants/enums';
 
 export class CreateRoleDto {
   @IsString()

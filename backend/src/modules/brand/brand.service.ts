@@ -3,7 +3,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
 import { generateSlug } from '../../common/utils/slugify';
-import { BrandStatus } from '@prisma/client';
+import { BrandStatus } from '../../common/constants/enums';
 
 @Injectable()
 export class BrandService {

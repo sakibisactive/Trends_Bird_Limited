@@ -1,5 +1,5 @@
 import { IsEnum, IsOptional, IsString } from 'class-validator';
-import { BrandStatus } from '@prisma/client';
+import { BrandStatus } from '../../../common/constants/enums';
 
 export class UpdateBrandDto {
   @IsString()

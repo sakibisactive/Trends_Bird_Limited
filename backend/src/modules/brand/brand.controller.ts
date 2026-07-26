@@ -12,7 +12,7 @@ import { BrandService } from './brand.service';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
 import { RequirePermissions } from '../../common/decorators/permissions.decorator';
-import { BrandStatus } from '@prisma/client';
+import { BrandStatus } from '../../common/constants/enums';
 
 @Controller('api/v1/brands')
 export class BrandController {

@@ -1,6 +1,6 @@
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 generator client {
@@ -34,7 +34,7 @@ enum AttributeType {
 enum StockStatus {
   IN_STOCK
   OUT_OF_STOCK
-  LOW_STOCK
+  ON_BACKORDER
 }
 
 model User {
@@ -74,14 +74,14 @@ model PermissionGroup {
 }
 
 model Permission {
-  id          String          @id @default(uuid())
-  name        String          @unique
+  id          String           @id @default(uuid())
+  name        String           @unique
   description String?
   groupId     String
-  group       PermissionGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  group       PermissionGroup  @relation(fields: [groupId], references: [id], onDelete: Cascade)
   roles       RolePermission[]
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
 }
 
 model Role {
@@ -168,18 +168,18 @@ model Attribute {
 }
 
 model AttributeValue {
-  id             String                   @id @default(uuid())
+  id             String                  @id @default(uuid())
   value          String
   slug           String
   referenceValue String?
   mediaId        String?
-  media          Media?                   @relation(fields: [mediaId], references: [id], onDelete: SetNull)
+  media          Media?                  @relation(fields: [mediaId], references: [id], onDelete: SetNull)
   attributeId    String
-  attribute      Attribute                @relation(fields: [attributeId], references: [id], onDelete: Cascade)
+  attribute      Attribute               @relation(fields: [attributeId], references: [id], onDelete: Cascade)
   variantValues  VariantAttributeValue[]
   productMedia   ProductMedia[]
-  createdAt      DateTime                 @default(now())
-  updatedAt      DateTime                 @updatedAt
+  createdAt      DateTime                @default(now())
+  updatedAt      DateTime                @updatedAt
 
   @@unique([attributeId, value])
 }

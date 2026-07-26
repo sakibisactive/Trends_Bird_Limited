@@ -8,7 +8,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { generateSlug } from '../../common/utils/slugify';
-import { StockStatus } from '@prisma/client';
+import { StockStatus } from '../../common/constants/enums';
 
 @Injectable()
 export class ProductService {

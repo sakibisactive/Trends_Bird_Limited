@@ -11,7 +11,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { StockStatus } from '@prisma/client';
+import { StockStatus } from '../../../common/constants/enums';
 
 export class ProductMediaDto {
   @IsString()

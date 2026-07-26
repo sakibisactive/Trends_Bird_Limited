@@ -1,5 +1,5 @@
 import { IsArray, IsEnum, IsNotEmpty, IsOptional, IsString, ValidateNested } from 'class-validator';
-import { AttributeType } from '@prisma/client';
+import { AttributeType } from '../../../common/constants/enums';
 import { Type } from 'class-transformer';
 
 export class CreateAttributeValueDto {

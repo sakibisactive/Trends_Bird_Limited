@@ -1,7 +1,7 @@
 import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { UpdateMediaDto } from './dto/update-media.dto';
-import { MediaType } from '@prisma/client';
+import { MediaType } from '../../common/constants/enums';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as sharp from 'sharp';
