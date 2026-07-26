@@ -1,0 +1,17 @@
+# Node modules & builds
+node_modules/
+dist/
+build/
+
+# Environment files
+.env
+.env.local
+
+# Assignment raw documents
+*.docx
+*.docx.md
+*.pdf
+
+# Logs & OS
+*.log
+.DS_Store
