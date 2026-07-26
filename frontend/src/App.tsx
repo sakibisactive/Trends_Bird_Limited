@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { Sidebar } from './components/Sidebar';
@@ -14,8 +14,17 @@ import { AttributePage } from './pages/AttributePage';
 import { ProductListPage } from './pages/ProductListPage';
 import { ProductFormPage } from './pages/ProductFormPage';
 
+export const MobileLayoutContext = React.createContext<{
+  toggleMobileMenu: () => void;
+}>({ toggleMobileMenu: () => {} });
+
 const ProtectedLayout: React.FC = () => {
   const { isAuthenticated, isLoading } = useAuth();
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileSidebarOpen((prev) => !prev);
+  };
 
   if (isLoading) {
     return (
@@ -30,25 +39,27 @@ const ProtectedLayout: React.FC = () => {
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
-      <Sidebar />
-      <div className="flex-1 flex flex-col min-w-0">
-        <Routes>
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/permissions" element={<PermissionPage />} />
-          <Route path="/roles" element={<RolePage />} />
-          <Route path="/users" element={<UserPage />} />
-          <Route path="/media" element={<MediaPage />} />
-          <Route path="/categories" element={<CategoryPage />} />
-          <Route path="/brands" element={<BrandPage />} />
-          <Route path="/attributes" element={<AttributePage />} />
-          <Route path="/products" element={<ProductListPage />} />
-          <Route path="/products/new" element={<ProductFormPage />} />
-          <Route path="/products/edit/:id" element={<ProductFormPage />} />
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
-        </Routes>
+    <MobileLayoutContext.Provider value={{ toggleMobileMenu }}>
+      <div className="flex min-h-screen bg-slate-50">
+        <Sidebar isOpen={isMobileSidebarOpen} onClose={() => setIsMobileSidebarOpen(false)} />
+        <div className="flex-1 flex flex-col min-w-0">
+          <Routes>
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/permissions" element={<PermissionPage />} />
+            <Route path="/roles" element={<RolePage />} />
+            <Route path="/users" element={<UserPage />} />
+            <Route path="/media" element={<MediaPage />} />
+            <Route path="/categories" element={<CategoryPage />} />
+            <Route path="/brands" element={<BrandPage />} />
+            <Route path="/attributes" element={<AttributePage />} />
+            <Route path="/products" element={<ProductListPage />} />
+            <Route path="/products/new" element={<ProductFormPage />} />
+            <Route path="/products/edit/:id" element={<ProductFormPage />} />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </Routes>
+        </div>
       </div>
-    </div>
+    </MobileLayoutContext.Provider>
   );
 };
 

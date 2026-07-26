@@ -96,15 +96,6 @@ export const LoginPage: React.FC = () => {
               <span>Sign In to Dashboard</span>
             )}
           </button>
-
-          {/* Quick Demo Credentials Info */}
-          <div className="mt-6 pt-6 border-t border-slate-100 text-center">
-            <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2">Seeded Demo Credentials</p>
-            <div className="text-xs space-y-1 text-slate-600 bg-slate-50 p-3 rounded-lg border border-slate-200">
-              <p><span className="font-semibold text-slate-800">Super Admin:</span> admin@trendsbird.com / Admin@123456</p>
-              <p><span className="font-semibold text-slate-800">Catalog User (403 Test):</span> catalog@trendsbird.com / Catalog@123456</p>
-            </div>
-          </div>
         </form>
       </div>
     </div>

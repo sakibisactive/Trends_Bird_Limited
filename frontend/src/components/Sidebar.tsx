@@ -13,6 +13,7 @@ import {
   Image as ImageIcon,
   LogOut,
   Bird,
+  X,
 } from 'lucide-react';
 
 interface NavItem {
@@ -34,20 +35,33 @@ const navItems: NavItem[] = [
   { name: 'Products', path: '/products', icon: Package, module: 'product' },
 ];
 
-export const Sidebar: React.FC = () => {
+interface SidebarProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+export const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
   const { canWatch, logout, user } = useAuth();
 
-  return (
-    <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col min-h-screen border-r border-slate-800 select-none">
+  const sidebarContent = (
+    <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col h-full border-r border-slate-800 select-none">
       {/* Brand Logo Header */}
-      <div className="h-16 flex items-center px-6 border-b border-slate-800 gap-3">
-        <div className="w-9 h-9 rounded-lg bg-sky-500 flex items-center justify-center text-white shadow-lg shadow-sky-500/20">
-          <Bird className="w-6 h-6" />
+      <div className="h-16 flex items-center justify-between px-6 border-b border-slate-800">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-lg bg-sky-500 flex items-center justify-center text-white shadow-lg shadow-sky-500/20">
+            <Bird className="w-6 h-6" />
+          </div>
+          <div>
+            <h1 className="font-bold text-white tracking-wide text-sm">TRENDS BIRD</h1>
+            <p className="text-[10px] text-slate-400 font-medium">Ecommerce Admin</p>
+          </div>
         </div>
-        <div>
-          <h1 className="font-bold text-white tracking-wide text-sm">TRENDS BIRD</h1>
-          <p className="text-[10px] text-slate-400 font-medium">Ecommerce Admin</p>
-        </div>
+        {/* Mobile Close Button */}
+        {onClose && (
+          <button onClick={onClose} className="md:hidden text-slate-400 hover:text-white p-1">
+            <X className="w-5 h-5" />
+          </button>
+        )}
       </div>
 
       {/* Navigation Links */}
@@ -65,6 +79,9 @@ export const Sidebar: React.FC = () => {
             <NavLink
               key={item.path}
               to={item.path}
+              onClick={() => {
+                if (onClose) onClose();
+              }}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 ${
                   isActive
@@ -104,5 +121,24 @@ export const Sidebar: React.FC = () => {
         </div>
       </div>
     </aside>
+  );
+
+  return (
+    <>
+      {/* Desktop Persistent Sidebar */}
+      <div className="hidden md:block shrink-0 min-h-screen">
+        {sidebarContent}
+      </div>
+
+      {/* Mobile Drawer Overlay */}
+      {isOpen && (
+        <div className="fixed inset-0 z-50 md:hidden flex">
+          <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm" onClick={onClose} />
+          <div className="relative z-10 flex-1 max-w-xs w-full h-full shadow-2xl">
+            {sidebarContent}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
