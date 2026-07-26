@@ -1,0 +1,293 @@
+{
+  "info": {
+    "name": "Trends Bird Limited - Ecommerce Admin API Collection",
+    "description": "Comprehensive Postman API collection for Trends Bird Limited Backend Developer Intern Assignment. Covers all 9 modules, authentication, RBAC permission guards, and catalog features.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "refreshToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Login - Super Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@trendsbird.com\",\n  \"password\": \"Admin@123456\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login" }
+          }
+        },
+        {
+          "name": "Login - Limited Catalog User (403 Test)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"catalog@trendsbird.com\",\n  \"password\": \"Catalog@123456\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login" }
+          }
+        },
+        {
+          "name": "Refresh Token Rotation",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/refresh" }
+          }
+        },
+        {
+          "name": "Get Current Session",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/auth/session" }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/logout" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Permission Module",
+      "item": [
+        {
+          "name": "Get Permission Groups List",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/permissions/groups" }
+          }
+        },
+        {
+          "name": "Create Permission Group",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"shipping\",\n  \"description\": \"Logistics and shipping management\",\n  \"actions\": [\"watch\", \"create\", \"read\", \"update\", \"delete\"],\n  \"customActions\": [\"calculate_rates\", \"dispatch\"]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/permissions/groups" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Role Module",
+      "item": [
+        {
+          "name": "Get Roles List",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/roles" }
+          }
+        },
+        {
+          "name": "Create Role",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Store Inspector\",\n  \"description\": \"Read-only store auditor role\",\n  \"status\": \"ACTIVE\",\n  \"permissionIds\": [\"product:read\", \"category:read\", \"brand:read\"]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/roles" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. User Module",
+      "item": [
+        {
+          "name": "Get Users List",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/users" }
+          }
+        },
+        {
+          "name": "Create User Account",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"jane.doe@trendsbird.com\",\n  \"password\": \"Jane@123456\",\n  \"roleId\": \"<ROLE_ID>\",\n  \"isActive\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/users" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Media Module",
+      "item": [
+        {
+          "name": "Get Media Assets List",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/media" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Category Module",
+      "item": [
+        {
+          "name": "Get Category Tree",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/categories/tree" }
+          }
+        },
+        {
+          "name": "Create Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Smartphones\",\n  \"slug\": \"smartphones\",\n  \"description\": \"5G Smartphones\",\n  \"isActive\": true,\n  \"sortOrder\": 1\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/categories" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Brand Module",
+      "item": [
+        {
+          "name": "Get Brands List",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/brands" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "8. Attribute Module",
+      "item": [
+        {
+          "name": "Get Attributes List",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/attributes" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "9. Product Module",
+      "item": [
+        {
+          "name": "Get Products List",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/products" }
+          }
+        },
+        {
+          "name": "Create Simple Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Bluetooth Keyboard\",\n  \"sku\": \"KEYB-BT-01\",\n  \"hasVariants\": false,\n  \"price\": 59.99,\n  \"salePrice\": 49.99,\n  \"stock\": 100,\n  \"isActive\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/products" }
+          }
+        }
+      ]
+    }
+  ]
+}
